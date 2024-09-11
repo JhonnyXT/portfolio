@@ -30,6 +30,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3  # Usa esta acción para el despliegue
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Asegúrate de tener el token configurado
+          personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./dist  # La carpeta que contiene tu build de Astro
+          publish_dir: ./dist
