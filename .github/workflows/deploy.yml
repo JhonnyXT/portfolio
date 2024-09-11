@@ -2,13 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   # Activa el flujo de trabajo cada vez que hagas push a la rama `main`
-  # Usando un nombre de rama diferente? Reemplaza `main` con el nombre de tu rama
   push:
-    branches: [ master ]
-  # Te permite ejecutar este flujo de trabajo manualmente desde la pestaña Acciones en GitHub.
+    branches: [ master ]  # Asegúrate de que esto sea tu rama principal
   workflow_dispatch:
 
-# Permite que este trabajo clone el repositorio y cree un despliegue de página
 permissions:
   contents: read
   pages: write
@@ -23,16 +20,16 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
-          package-manager: npm@latest
-          node-version: 20             
+          package-manager: npm@latest # Ajusta según tu gestor de paquetes
+          node-version: 20
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3  # Usa esta acción para el despliegue
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Asegúrate de tener el token configurado
+          publish_branch: gh-pages
+          publish_dir: ./dist  # La carpeta que contiene tu build de Astro
