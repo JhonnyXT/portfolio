@@ -1,14 +1,10 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
-    branches: [master]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
+    branches: [ master ]  # Asegúrate de que esto coincida con la rama en la que estás trabajando
   workflow_dispatch:
 
-# Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
   pages: write
@@ -18,21 +14,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v2
-        with:
-          package-manager: npm  # Especifica tu gestor de paquetes aquí
-          node-version: 20
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Ajusta la versión de Node.js según sea necesario
+
+      - name: Install dependencies
+        run: npm install  # Usa yarn install o pnpm install si usas esos gestores
+
+      - name: Build
+        run: npm run build  # Asegúrate de que tu script de build esté correctamente definido en package.json
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Usa el token de GitHub Actions
+          publish_branch: master  # Usa la misma rama para publicar
+          publish_dir: ./dist
