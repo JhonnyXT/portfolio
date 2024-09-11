@@ -30,4 +30,4 @@ jobs:
           publish_branch: gh-pages
           publish_dir: ./dist
         env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
