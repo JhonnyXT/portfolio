@@ -1,9 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Activa el flujo de trabajo cada vez que hagas push a la rama `main`
   push:
-    branches: [ master ]  # Asegúrate de que esto sea tu rama principal
+    branches: [ master ]  # Asegúrate de que esta es tu rama principal
   workflow_dispatch:
 
 permissions:
@@ -20,7 +19,7 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
-          package-manager: npm@latest # Ajusta según tu gestor de paquetes
+          package-manager: npm@latest
           node-version: 20
 
   deploy:
@@ -28,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  # Usa esta acción para el despliegue
+        uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           publish_branch: gh-pages
